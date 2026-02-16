@@ -1,6 +1,6 @@
 # VLM 技术进展学习文档索引 (Index of VLM Advances)
 
-本文档汇总了截止 2026 年 2 月 Vision-Language Models (VLM) 领域的 5 项关键技术演进。
+本文档汇总了截止 2026 年 2 月 Vision-Language Models (VLM) 领域的 **11 项**关键技术演进。
 
 ---
 
@@ -23,7 +23,7 @@
 
 ### 14. [Training: Img-Txt Align → Visual Instruction Tuning](./14_Visual_Instruction_Tuning.md)
 *   **演进点**：从对齐预训练 (CLIP) 到 视觉指令微调 (Visual SFT)。
-*   **核心价值**：利用纯文本 GPT-4 生成多模态对话数据，将 VLM 从“看图说话”进化为“听懂指令”的 **Visual Chatbot**。
+*   **核心价值**：利用纯文本 GPT-4 生成多模态对话数据，将 VLM 从"看图说话"进化为"听懂指令"的 **Visual Chatbot**。含 RLHF 详解。
 *   **代表模型**：LLaVA, InstructBLIP.
 
 ### 15. [Reasoning: VQA → Visual CoT](./15_Visual_CoT.md)
@@ -31,10 +31,41 @@
 *   **核心价值**：强制模型输出 `观察 -> 分析 -> 结论` 的推理过程，显著提升了在几何、逻辑、科学问题上的准确率，减少了通过 Shortcut 猜答案的现象。
 *   **代表模型**：LLaVA-1.5, GPT-4o, Gemini 1.5.
 
-### 16. [SOTA Models: Qwen2-VL vs Gemini 1.5 vs GPT-4o](./16_SOTA_Models_Review.md)
-*   **演进点**：当前最强 VLM 模型架构深度解析。
+### 16. [SOTA Models: Qwen2-VL vs Gemini 1.5 vs GPT-4o (+ 后续 Gemini 3 / GPT-5.2 / Qwen3)](./16_SOTA_Models_Review.md)
+*   **演进点**：当前最强 VLM 模型架构深度解析 + 后续模型全面对比。
 *   **核心价值**：
-    *   **Qwen2-VL**: Naive Dynamic Resolution (M-RoPE) 实现极致 OCR。
-    *   **Gemini 1.5**: MoE + Native Multimodality 实现百万级长视频理解。
-    *   **GPT-4o**: Unified Omni Model 实现低延迟实时语音交互。
-*   **代表模型**：Qwen2-VL, Gemini 1.5 Pro, GPT-4o.
+    *   **Qwen2-VL → Qwen3**: 动态分辨率 + 开源全模态 + 音频 SOTA。
+    *   **Gemini 1.5 → 3 Pro**: 1M 上下文 + 帧级视频推理，感知之王。
+    *   **GPT-4o → 5.2**: 端到端语音 + 自验证机制，推理之王。
+*   **代表模型**：Qwen3, Gemini 3 Pro, GPT-5.2.
+
+---
+
+## 补充专题 (Supplementary Topics)
+
+以下 5 篇文档补充了 VLM 进展中同样重要但未被上述主线覆盖的关键技术：
+
+### S1. [视觉编码器演进：CLIP → SigLIP → DINOv2 → SigLIP 2](./VLM_S1_Vision_Encoder_Evolution.md)
+*   **演进点**：VLM 的"眼睛"从单一对比学习走向多目标联合训练。
+*   **核心价值**：CLIP 提供语义，DINOv2 提供空间感知，**双编码器融合**成为 VLA 标配。SigLIP 2 (400M) 以多目标训练打败 InternViT (6B)，证明**训练方法 > 模型规模**。
+*   **代表模型**：CLIP, SigLIP 2, DINOv2, Prismatic VLMs.
+
+### S2. [视觉接地：从"看图说话"到"指哪说哪"](./VLM_S2_Visual_Grounding.md)
+*   **演进点**：VLM 从纯文本输出 → 输出空间坐标（边界框/点坐标）。
+*   **核心价值**：Grounding 是 **VLM → VLA 的桥梁**——机器人操作、UI 自动化、医学影像都需要精确定位。
+*   **代表模型**：Kosmos-2, Ferret, CogAgent, Set-of-Mark.
+
+### S3. [视频理解：从单张图片到时间流](./VLM_S3_Video_Understanding.md)
+*   **演进点**：从单图理解 → 多帧分析 → 数小时长视频理解。
+*   **核心价值**：帧采样、Token 压缩、M-RoPE 时间位置编码让 VLM 理解动态世界。**视频理解是 VLM 静态感知到 VLA 动态行动的关键桥梁**。
+*   **代表模型**：Video-LLaVA, Qwen2-VL, Gemini 3 Pro.
+
+### S4. [多模态幻觉：VLM 最致命的缺陷](./VLM_S4_Hallucination.md)
+*   **演进点**：识别和对抗 VLM 特有的"编造不存在内容"问题。
+*   **核心价值**：对比解码 (VCD/ICD/LCD) 提供**无需重训的即插即用**方案；RLHF/DPO 从训练层面根治。在 VLA 中，幻觉从"说错话"升级为"做错事"。
+*   **评测基准**：POPE, CHAIR, MMHal-Bench.
+
+### S5. [统一视觉模型：从"只看"到"又看又画"](./VLM_S5_Unified_Vision.md)
+*   **演进点**：VLM 从纯理解 → 理解+生成的统一模型。
+*   **核心价值**：通过视觉 Tokenization (VQ-VAE) 将图像纳入自回归框架，**一个模型同时理解和生成图像**。为 VLA 的世界模型和视觉目标生成奠定基础。
+*   **代表模型**：Chameleon, Emu2, Show-o, Janus.
